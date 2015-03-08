@@ -1,0 +1,16 @@
+{
+  "name": "vm-downloader",
+  "version": "1.0.0",
+  "description": "Downloads Modern.IE vm images and updates them based on MD5 Hashes",
+  "main": "hello.js",
+  "dependencies": {
+    "phantomjs": "^1.9.15"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "download": "phantomjs modernie_vmlist_download.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

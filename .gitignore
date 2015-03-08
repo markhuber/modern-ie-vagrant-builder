@@ -1,0 +1,4 @@
+*.zip
+*.tmp
+node_modules
+downloads
