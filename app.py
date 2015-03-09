@@ -1,4 +1,3 @@
-import sys
 import json
 import wget
 import hashlib
@@ -6,24 +5,24 @@ import urllib2
 import os.path
 import zipfile
 import virtualbox
-from wget import bar_thermometer
-from pprint import pprint
 
-DEBUG = True
+DEBUG = False
 vbox = virtualbox.VirtualBox()
+
 
 def log(msg):
 	if DEBUG: print msg
 
 def md5sum(filename, blocksize=65536):
-    if not os.path.exists(filename):
-    	return ''
+	if filename is None or not os.path.exists(filename):
+		log('md5sum: zip file does not exist to calculate MD5, skipping...')
+		return
 
-    hash = hashlib.md5()
-    with open(filename, "r+b") as f:
-        for block in iter(lambda: f.read(blocksize), ""):
-            hash.update(block)
-    return hash.hexdigest()
+	hash = hashlib.md5()
+	with open(filename, "r+b") as f:
+		for block in iter(lambda: f.read(blocksize), ""):
+			hash.update(block)
+	return hash.hexdigest()
 
 def compareMd5Hashes(name, build = 0):
 	fileIndex = 1 
@@ -39,29 +38,19 @@ def compareMd5Hashes(name, build = 0):
 def unzip(source_filename, dest_dir):
 	if source_filename is None or not os.path.exists(source_filename):
 		log('Unzip: zip file does not exist, skipping...')
-		return
+		return getOvaName(dest_dir + source_filename + '.md5')
 
 	log('Unzipping ' + source_filename + ' to ' + dest_dir)
 	with zipfile.ZipFile(source_filename) as zf:
-		for member in zf.infolist():
-			# Path traversal defense copied from
-			# http://hg.python.org/cpython/file/tip/Lib/http/server.py#l789
-			words = member.filename.split('/')
-			path = dest_dir
-			for word in words[:-1]:
-				drive, word = os.path.splitdrive(word)
-				head, word = os.path.split(word)
-				if word in (os.curdir, os.pardir, ''): continue
-				path = os.path.join(path, word)
-				zf.extract(member, path)
+		zf.extractall(dest_dir)
 		return zf.namelist()[0]
 
 def writeMd5File(filename, md5, build, ovaFile):
 	if filename is None or not os.path.exists(filename):
-		log('Unzip: zip file does not exist, skipping...')
+		log('writeMd5File: zip file does not exist, skipping...')
 		return
 
-	if len(ovaFile == 0):
+	if len(ovaFile) == 0:
 		log('writeMd5File: No updated OVA File found...')
 		return
 
@@ -81,45 +70,53 @@ def vboxVmExists(name):
 
 def vboxGetName(filename, build = 0):
 	manifest = destinationDir(build) + filename + '.md5'
-	log('vboxGetName - Checking for file at: ' + manifest)
 	if not os.path.exists(manifest):
 		return ''
 
-	target = open(manifest)
-	md5 = target.readline()
-	ovaFile = target.readline()
+	ovaFile = getOvaName(manifest)
 
 	if(len(ovaFile) > 0):
 		return build + '-' + ovaFile.replace(' ', '').replace('.ova', '').strip()
 	else:
 		return ''
 
-def importVbox(ovaFile, build, vmName):
-	file = destinationDir(build) + ovaFile
+def getOvaName(manifest):
+
+	target = open(manifest)
+	md5 = target.readline()
+	ovaFile = target.readline()
+
+	return ovaFile
+
+def importVbox(filename, build, vmName):
+	file = (destinationDir(build) + filename).strip()
+
+	log('importVbox filename: ' + file)
+	if filename is not None: log('importVbox exists:' + str(os.path.exists(file)))
+	if filename is None or not os.path.exists(file):
+		log('importVbox: No OVA file to import, skipping...')
+		return
 
 	if vboxVmExists(vmName):
 		log('VM already imported to VirtualBox: ' + vmName)
 		return
 
 	log('Importing file: ' + file + ' with name: ' + vmName)
-	
-	currDir = os.path.dirname(os.path.realpath(__file__))
 
-	os.chdir(destinationDir(build))
 	appliance = vbox.create_appliance()
-	appliance.read(ovaFile)
 
-	desc = appliance.find_description(ovaFile.replace('.ova', ''))
+	appliance.read(os.path.abspath(file.strip()).strip())
+
+	desc = appliance.find_description(filename.strip().replace('.ova', ''))
 	desc.set_name(vmName)
 
 	p = appliance.import_machines()
 	p.wait_for_completion()
 
-	os.chdir(currDir)
-
 def downloadFile(url, name, build):
 	if not compareMd5Hashes(name, build):
-		return wget.download(url)
+		wget.download(url)
+	return name
 
 
 json_data = open('result.json').read()
