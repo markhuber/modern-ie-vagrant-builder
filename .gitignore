@@ -2,4 +2,6 @@
 *.tmp
 node_modules
 downloads
+box
 result.json
+.*
