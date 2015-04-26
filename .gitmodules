@@ -1,3 +1,0 @@
-[submodule "box/docker-vagrant-catalog"]
-	path = box/docker-vagrant-catalog
-	url = https://github.com/markhuber/docker-vagrant-catalog.git

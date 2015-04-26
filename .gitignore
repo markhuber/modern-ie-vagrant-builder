@@ -2,6 +2,6 @@
 *.tmp
 node_modules
 downloads
-box/files
+vagrant-catalog-server/files
 result.json
 .*

@@ -15,7 +15,7 @@ function virtualbox_exist()
 
 function vagrant_file_exist()
 {
-	if [ -e "./box/$1_$VERSION.box" ]
+	if [ -e "./vagrant-catalog-server/files/dealertrack/$1/$1_$VERSION.box" ]
 	then
 		VAGRANTFILEEXIST=1
 	else
@@ -57,12 +57,12 @@ function package()
 			vagrant box remove $1
 			vagrant_exist $1
 		fi
-		vagrant package --base $VERSION-$1 --output ./box/$1_$VERSION.box --vagrantfile ./VagrantFile-Gui-WinRM
+		vagrant package --base $VERSION-$1 --output ./vagrant-catalog-server/files/dealertrack/$1/$1_$VERSION.box --vagrantfile ./VagrantFile-Gui-WinRM
 	fi
 
 	if [ $VAGRANTEXIST -eq 0 ]
 	then
-		vagrant box add ./box/$1_$VERSION.box --name $1
+		vagrant box add ./vagrant-catalog-server/files/dealertrack/$1/$1_$VERSION.box --name $1
 	else
 		echo "Vagrant box for $1 already imported."
 	fi
