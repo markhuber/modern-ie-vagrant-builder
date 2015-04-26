@@ -1,0 +1,3 @@
+[submodule "vagrant-catalog-server/docker-vagrant-catalog"]
+	path = vagrant-catalog-server/docker-vagrant-catalog
+	url = http://github.com/markhuber/docker-vagrant-catalog.git
