@@ -1,0 +1,13 @@
+{
+  "name": "dealertrack/IE10-Win7",
+  "description": "Modern.IE based Vagrant box",
+  "versions": [{
+    "version": "20141027",
+    "providers": [{
+      "name": "virtualbox",
+      "url": "http://localhost:8080/files/dealertrack/IE10-Win7/IE10-Win7_20141027.box",
+      "checksum_type": "sha1",
+      "checksum": "58c8cca3fc9516e6024e2dfd5fca343f7d99d68e"
+    }]
+  }]
+}
