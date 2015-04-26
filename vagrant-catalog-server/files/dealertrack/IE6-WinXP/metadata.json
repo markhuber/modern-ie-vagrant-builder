@@ -1,0 +1,13 @@
+{
+  "name": "dealertrack/IE6-WinXP",
+  "description": "Modern.IE based Vagrant box",
+  "versions": [{
+    "version": "20141027",
+    "providers": [{
+      "name": "virtualbox",
+      "url": "http://localhost:8080/files/dealertrack/IE6-WinXP/IE6-WinXP_20141027.box",
+      "checksum_type": "sha1",
+      "checksum": "d87326d6349d1a0794ce33e99995825713a5a66c"
+    }]
+  }]
+}
