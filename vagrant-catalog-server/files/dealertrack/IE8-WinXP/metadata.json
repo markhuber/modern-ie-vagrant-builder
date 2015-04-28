@@ -5,7 +5,7 @@
     "version": "20141027",
     "providers": [{
       "name": "virtualbox",
-      "url": "http://localhost:8080/files/dealertrack/IE8-WinXP/IE8-WinXP_20141027.box",
+      "url": "https://s3.amazonaws.com/vagrant-catalog-server/files/dealertrack/IE8-WinXP/IE8-WinXP_20141027.box",
       "checksum_type": "sha1",
       "checksum": "1f50d234035873b31964f7273953075a41199664"
     }]
