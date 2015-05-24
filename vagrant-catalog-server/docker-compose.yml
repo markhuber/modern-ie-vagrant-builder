@@ -1,0 +1,9 @@
+catalog:
+  image: markhuber/vagrant-catalog
+  volumes_from:
+  - metadata
+  ports:
+  - "80:80"
+metadata:
+  build: .
+  command: /bin/true
