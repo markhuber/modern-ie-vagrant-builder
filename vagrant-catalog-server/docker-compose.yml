@@ -1,0 +1,8 @@
+catalog:
+  image: markhuber/vagrant-catalog
+  volumes_from:
+  - metadata
+  ports:
+  - "80:80"
+metadata:
+  image: markhuber/modern-ie-vagrant-data

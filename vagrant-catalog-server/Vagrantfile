@@ -4,9 +4,13 @@
 Vagrant.configure(2) do |config|
   config.vm.box = "williamyeh/ubuntu-trusty64-docker"
   config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 8080, host: 8081, host_ip: "127.0.0.1"
 
-  # On Startup - start docker container
+  # Use host dockercfg credentials.
+  config.vm.provision :file, source: '~/.dockercfg', destination: '/home/vagrant/.dockercfg'
+
+  # On Startup - start docker containers
   config.vm.provision "shell", run: "always", privileged: "false", inline: <<-SHELL
-    docker run -d -p 80:80 -v /vagrant/files:/var/www/html/files markhuber/vagrant-catalog
+    docker-compose --file /vagrant/docker-compose.yml up -d
   SHELL
 end
