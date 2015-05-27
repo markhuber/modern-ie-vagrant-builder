@@ -5,7 +5,7 @@
     "version": "20141027",
     "providers": [{
       "name": "virtualbox",
-      "url": "https://s3.amazonaws.com/vagrant-catalog-server/files/dealertrack/IE10-Win7/IE10-Win7_20141027.box",
+      "url": "http://vagrant.markhuber.net/boxes/IE10-Win7_20141027.box",
       "checksum_type": "sha1",
       "checksum": "58c8cca3fc9516e6024e2dfd5fca343f7d99d68e"
     }]
