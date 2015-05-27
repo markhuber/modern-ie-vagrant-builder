@@ -5,5 +5,4 @@ catalog:
   ports:
   - "80:80"
 metadata:
-  build: .
-  command: /bin/true
+  image: markhuber/modern-ie-vagrant-data
